@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <!-- für später: CSS include -->
+    <!-- <link rel="stylesheet" href="XXX.css"/> -->
+    <!-- für später: JavaScript include -->
+    <!-- <script src="XXX.js" defer></script> -->
+    <title>Pizzaservice - Bestellung</title>
+</head>
+<body>
+    <header>
+        <h1>Bestellung</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Speisekarte</h2>
+
+            <article>
+                <img src="https://as2.ftcdn.net/v2/jpg/00/15/12/49/1000_F_15124931_H15Eb1L1s0oDxTAhzxcFDxgv8xyn07k8.jpg" alt="Pizza Salami" width="200" height="200">
+                <p>Pizza Salami<br>- 8.57€ -</p>
+            </article>
+
+            <article>
+                <img src="https://as1.ftcdn.net/v2/jpg/07/13/18/78/1000_F_713187880_qLMktTOcxHu3pSGJRgb1TREHEQuubzi5.jpg" alt="Pizza Vegetaria" width="200" height="200">
+                <p>Pizza Vegetaria<br>- 12.50€ -</p>
+            </article>
+
+            <article>
+                <img src="https://media.istockphoto.com/id/933120142/photo/meat-italian-classic-original-pepperoni-pizza-with-basil-leaf-isolated-on-white-background.jpg?s=1024x1024&w=is&k=20&c=M0vSe4mLFJisarbJCiXukIRj2xNyyjAyi6M4dcUcG44=" alt="Pizza Schinken" width="200" height="200">
+                <p>Pizza Schinken<br>- 11.99€ -</p>
+            </article>
+        </section>
+
+        <section>
+            <h2>Warenkorb</h2>
+
+            <form action="https://echo.hofmann-thomas.de" method="post">
+                <input type="text" id="adresse" name="adresse" placeholder="Adresse eingeben" required>
+                <br>
+                <br>
+
+                <select id="warenkorb" name="warenkorb[]" size="3" multiple required>
+                    <option value="salami">Salami</option>
+                    <option value="schinken">Schinken</option>
+                    <option value="vegetaria">Vegetaria</option>
+                </select>
+
+                <p>Gesamtpreis: 32.55€</p>
+
+                <button type="reset">Auswahl löschen</button>
+                <button type="reset">Alles löschen</button>
+                <button type="submit">Bestellen</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
