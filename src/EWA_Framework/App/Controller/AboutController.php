@@ -12,8 +12,10 @@ class AboutController extends BaseController
      *
      * @return void
      */
-    public function generateResponse(): void {
+    public function generateResponse(): string {
+        ob_start();
         $this->renderHtml('App/View/about.view.php');
+        return (string) ob_get_clean();
     }
 
     /**

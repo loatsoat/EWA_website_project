@@ -24,7 +24,7 @@ class IndexController extends BaseController {
      *
      * @return array Data array (associative or indexed) to be used in generateResponse
      */
-    private function getData(): array {
+    protected function getData(): array {
         /**
         * Demo placeholder:
         * The returned array is only sample data for teaching purposes.
@@ -45,9 +45,11 @@ class IndexController extends BaseController {
      *
      * @return void
      */
-    public function generateResponse(): void {
+    public function generateResponse(): string {
         $data = $this->getData();
+        ob_start();
         $this->renderHtml('App/View/index.view.php', ['data' => $data]);
+        return (string) ob_get_clean();
     }
 
     /**

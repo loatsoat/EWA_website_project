@@ -34,9 +34,9 @@ SET time_zone = "+00:00";
 --
 
 INSERT INTO `article` (`article_id`, `name`, `picture`, `price`) VALUES
-(1, 'Salami', 'pizza.png', 8.57),
-(2, 'Margherita', 'pizza.png', 12.5),
-(3, 'Hawaii', 'pizza.png', 11.99);
+(1, 'Salami', 'assets/images/salami.jpg', 8.57),
+(2, 'Margherita', 'assets/images/margherita.jpg', 12.5),
+(3, 'Hawaii', 'assets/images/hawaii.jpg', 11.99);
 
 -- --------------------------------------------------------
 
