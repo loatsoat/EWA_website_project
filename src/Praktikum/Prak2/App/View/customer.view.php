@@ -34,10 +34,9 @@
                                             0 => 'Bestellt',
                                             1 => 'Im Ofen',
                                             2 => 'Fertig',
-                                            3 => 'Unterwegs',
-                                            null => 'Bestellt'
+                                            3 => 'Unterwegs'
                                         ];
-                                        echo htmlspecialchars($statusMap[$article['status']] ?? 'Bestellt');
+                                        echo htmlspecialchars($statusMap[$article['status'] ?? 0] ?? 'Bestellt');
                                     ?>)
                                 </span>
                             </li>
