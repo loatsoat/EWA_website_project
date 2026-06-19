@@ -35,6 +35,17 @@
             white-space: nowrap;
             border: 0;
         }
+        #order-submit[disabled] {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+            border: none;
+            padding: 10px 20px;
+            opacity: 0.9;
+        }
     </style>
+    <?php if (!empty($includeScript)): ?>
+        <script src="assets/js/script.js" defer></script>
+    <?php endif; ?>
 </head>
 <body>
