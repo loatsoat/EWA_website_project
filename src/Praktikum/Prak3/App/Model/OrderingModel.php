@@ -42,9 +42,15 @@ class OrderingModel extends BaseModel
 
         $orders = [];
         while ($row = $result->fetch_assoc()) {
-            $orders[] = $row;
+            $orders[] = [
+                'id' => (int) $row['id'],
+                'address' => $row['address'],
+                'ordering_time' => $row['ordering_time'],
+                'articles' => $row['articles'],
+                'article_ids' => $row['article_ids'],
+            ];
         }
-
+        
         return $orders;
     }
 
@@ -59,7 +65,12 @@ class OrderingModel extends BaseModel
             die('Fehler beim Abrufen der Bestellung: ' . $this->db->error);
         }
 
-        return $result->fetch_assoc() ?: null;
+        $row = $result->fetch_assoc();
+        return $row ? [
+            'id' => (int) $row['id'],
+            'address' => $row['address'],
+            'ordering_time' => $row['ordering_time'],
+        ] : null;
     }
 
     public function getOrderedArticles(int $ordering_id): array

@@ -53,9 +53,15 @@ class ApiController extends BaseController
         ];
     }
 
+    public function generateResponse(string $resource = '', int $orderId = 0): string
+    {
+        $data = $this->getData($resource, $orderId);
+        $this->renderJson($data);
+        return '';
+    }
+
     public function handleRequest(string $resource = '', int $orderId = 0): void
     {
-        header('Content-Type: application/json');
-        echo json_encode($this->getData($resource, $orderId), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $this->generateResponse($resource, $orderId);
     }
 }
