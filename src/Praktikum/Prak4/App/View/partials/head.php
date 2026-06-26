@@ -10,20 +10,20 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
             color: #333;
         }
-        
+
         .container {
             max-width: 900px;
             margin: 0 auto;
             background-color: white;
             padding: 20px;
         }
-        
+
         .visually-hidden {
             position: absolute;
             width: 1px;
@@ -35,17 +35,11 @@
             white-space: nowrap;
             border: 0;
         }
-        #order-submit[disabled] {
-            background-color: #ccc;
-            color: #666;
-            cursor: not-allowed;
-            border: none;
-            padding: 10px 20px;
-            opacity: 0.9;
-        }
     </style>
-    <?php if (!empty($includeScript)): ?>
-        <script src="assets/js/script.js" defer></script>
+    <?php if (!empty($pageScripts) && is_array($pageScripts)): ?>
+        <?php foreach ($pageScripts as $jsFile): ?>
+            <script src="<?= htmlspecialchars(Router::generateUrl($jsFile)) ?>?v=1.0" defer></script>
+        <?php endforeach; ?>
     <?php endif; ?>
 </head>
 <body>

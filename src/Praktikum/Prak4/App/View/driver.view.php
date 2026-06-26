@@ -2,43 +2,50 @@
 <div class="container">
     <?php include __DIR__ . '/partials/header.php'; ?>
     <?php include __DIR__ . '/partials/navigation.php'; ?>
-    
+
     <main>
         <h1>Fahrer - Auslieferungsübersicht</h1>
-        
-        <form method="post" action="<?= Router::generateUrl('driver') ?>">
+
+        <form method="post" action="<?= Router::generateUrl('driver') ?>" id="driver-form">
             <?php if (!empty($orders)): ?>
                 <?php foreach ($orders as $order): ?>
-                    <article style="border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 5px; background-color: #f9f9f9;">
-                        <h3 class="visually-hidden">Bestellung <?= $order['id'] ?></h3>
-                        
-                        <p><strong>Bestellung #<?= $order['id'] ?></strong></p>
+                    <article>
+                        <h3>Bestellung #<?= (int) $order['id'] ?></h3>
+
                         <p><strong>Adresse:</strong> <?= htmlspecialchars($order['address']) ?></p>
-                        <p style="margin-bottom: 15px;"><strong>Anzahl Artikel:</strong> <?= $order['article_count'] ?></p>
-                        
-                        <p style="margin: 10px 0; font-weight: bold;">Lieferstatus:</p>
+                        <p><strong>Anzahl Artikel:</strong> <?= (int) $order['article_count'] ?></p>
+
+                        <p><strong>Lieferstatus:</strong></p>
                         <div>
-                            <label style="margin-right: 15px;">
-                                <input type="radio" name="order_<?= $order['id'] ?>" value="3">
+                            <label>
+                                <input type="radio" class="auto-submit" name="order_<?= (int) $order['id'] ?>" value="3">
                                 Unterwegs
                             </label>
                             <label>
-                                <input type="radio" name="order_<?= $order['id'] ?>" value="delivered">
+                                <input type="radio" class="auto-submit" name="order_<?= (int) $order['id'] ?>" value="delivered">
                                 Geliefert (löschen)
                             </label>
                         </div>
                     </article>
                 <?php endforeach; ?>
-                
-                <div style="text-align: right;">
-                    <button type="submit" style="padding: 10px 20px; background-color: #333; color: white; border: none; border-radius: 3px; cursor: pointer;">Status aktualisieren</button>
-                </div>
             <?php else: ?>
-                <p style="padding: 20px; background-color: #fff3cd; border-radius: 4px;">
+                <p class="alert-empty">
                     Keine Bestellungen zur Auslieferung bereit
                 </p>
             <?php endif; ?>
         </form>
     </main>
 </div>
+
+<script>
+    const form   = document.getElementById("driver-form");
+    const radios = form.querySelectorAll(".auto-submit");
+
+    radios.forEach(radio => {
+        radio.addEventListener("click", () => {
+            form.submit();
+        });
+    });
+</script>
+
 <?php include __DIR__ . '/partials/footer.php'; ?>
