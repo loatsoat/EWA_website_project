@@ -10,8 +10,7 @@ function process(data) {
     if (!container) return;
 
     if (!data.order) {
-        container.innerHTML =
-            'Keine aktuelle Bestellung vorhanden.</p>';
+        container.innerHTML = '<p class="alert-empty">Keine aktuelle Bestellung vorhanden.</p>';
         return;
     }
 
@@ -27,27 +26,25 @@ function process(data) {
 
             rows +=
                 '<li>' +
-                    a.name + " \u2013 " + price + " \u20ac" +
-                        "(Status: " + status + ")" +
-                    "</span>" +
-                "</li>";
+                    a.name + " – " + price + " € " +
+                    "(Status: " + status + ")" +
+                '</li>';
         });
     } else {
-        rows = '<li style="padding:10px;">Keine Artikel in dieser Bestellung</li>';
+        rows = '<li>Keine Artikel in dieser Bestellung</li>';
     }
 
     container.innerHTML =
-        "<section>" +
-            "<h2>Ihre aktuelle Bestellung</h2>" +
-            '<article style="border:1px solid #ddd; padding:15px; margin-bottom:15px;' +
-                ' border-radius:5px; background-color:#f9f9f9;">' +
+        '<section class="order-card">' +
+            '<h2>Ihre aktuelle Bestellung</h2>' +
+            '<article class="article-item">' +
                 '<h3 class="visually-hidden">Bestellinformation</h3>' +
-                "<p><strong>Bestellnummer:</strong> #" + order.id + "</p>" +
-                "<p><strong>Lieferadresse:</strong> " + order.address + "</p>" +
-            "</article>" +
-            "<h3>Bestellte Artikel</h3>" +
-            '<ul style="list-style:none; padding:0;">' + rows + "</ul>" +
-        "</section>";
+                '<p><strong>Bestellnummer:</strong> #' + order.id + '</p>' +
+                '<p><strong>Lieferadresse:</strong> ' + order.address + '</p>' +
+            '</article>' +
+            '<h3>Bestellte Artikel</h3>' +
+            '<ul class="order-list">' + rows + '</ul>' +
+        '</section>';
 }
 
 async function requestData() {
@@ -66,6 +63,6 @@ async function requestData() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    requestData();                 
-    setInterval(requestData, 2000); 
+    requestData();
+    setInterval(requestData, 2000);
 });

@@ -14,12 +14,13 @@
                         data-id="<?= (int) $article['id'] ?>"
                         data-name="<?= htmlspecialchars($article['name']) ?>"
                         data-price="<?= htmlspecialchars($article['price']) ?>">
-                        
+
                         <h3><?= htmlspecialchars($article['name']) ?></h3>
                         <img
                             src="<?= htmlspecialchars($article['picture']) ?>"
                             alt="Pizza <?= htmlspecialchars($article['name']) ?>"
-                            width="180" height="180">
+                            width="180"
+                            height="180">
                         <p><strong><?= htmlspecialchars($article['name']) ?></strong></p>
                         <p><?= number_format((float) $article['price'], 2, ',', '.') ?> €</p>
                     </article>
@@ -32,32 +33,28 @@
         <section>
             <h2>Warenkorb</h2>
             <form method="post" action="<?= Router::generateUrl('order') ?>" id="order-form">
-                <div>
+                <div class="form-group">
+                    <label for="adresse">Lieferadresse</label>
+                    <input type="text" id="adresse" name="adresse" class="form-control" placeholder="Adresse eingeben">
+                </div>
 
-                    <div>
-                        <label for="adresse">Lieferadresse</label><br>
-                        <input type="text" id="adresse" name="adresse" placeholder="Adresse eingeben">
+                <div class="form-group">
+                    <strong>Auswahl</strong>
+                    <div id="cart-items">
+                        <p id="cart-empty" class="cart-empty">Noch keine Pizza ausgewählt.</p>
                     </div>
+                </div>
 
-                    <div>
-                        <strong>Auswahl</strong>
-                        <div id="cart-items">
-                            <p id="cart-empty">Noch keine Pizza ausgewählt.</p>
-                        </div>
-                    </div>
+                <p>Gesamtpreis: <span id="total-price">0,00</span> €</p>
 
-                    <p>
-                        Gesamtpreis: <span id="total-price">0,00</span> €
-                    </p>
+                <div id="hidden-order-fields"></div>
 
-                    <div id="hidden-order-fields"></div>
-
-                    <div>
-                        <button type="button" id="clear-selection">Auswahl löschen</button>
-                        <button type="button" id="clear-all">Alles löschen</button>
-                        <button type="submit" id="order-submit" disabled>Bestellen</button>
-                    </div>
-
+                <div class="btn-group">
+                    <button type="button" id="clear-selection" class="btn btn-secondary">Auswahl löschen</button>
+                    <button type="button" id="clear-all" class="btn btn-secondary">Alles löschen</button>
+                    <button type="submit" id="order-submit" class="btn btn-primary" disabled>
+                        <i class="fa-solid fa-cart-shopping"></i> Bestellen
+                    </button>
                 </div>
             </form>
         </section>

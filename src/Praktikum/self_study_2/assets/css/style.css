@@ -1,0 +1,218 @@
+/* Fonts are loaded via Google Fonts in the page head (see partial head.php) */
+
+:root {
+    --font-sans: "Source Serif 4", "Bitcount Single", serif;
+    --font-display: "Bitcount Single", "Source Serif 4", serif;
+}
+
+/* keep any local/offline @font-face blocks out, since you deleted the ttf files */
+
+:root {
+    --primary: #c0392b;
+
+    --bg: #f4f1ec;
+    --surface: #fff;
+    --text: #2c2c2c;
+    --border: #ddd5c8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font-sans) !important;
+
+
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.5;
+}
+
+/* h1/h2/h3 are styled above using Google Fonts */
+
+
+a { color: var(--primary); text-decoration: none; }
+img { max-width: 100%; height: auto; }
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+main {
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.site-header {
+    position: relative;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    margin-bottom: 1rem;
+    background-color: var(--text);
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.site-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("../images/header.jpg") center / cover no-repeat;
+
+    opacity: 0.4;
+}
+
+
+
+.site-header h1 {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    margin-bottom: 0;
+    font-family: var(--font-display);
+}
+
+h1, h2, h3 {
+    font-family: var(--font-display);
+    margin-bottom: 1rem;
+}
+
+
+.site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--border);
+}
+
+.site-nav a {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.site-nav a i { margin-right: 0.25rem; }
+
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-secondary { background: var(--bg); border: 1px solid var(--border); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.form-group { margin-bottom: 1rem; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 0.25rem; }
+
+.form-control {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+.login-form {
+    max-width: 400px;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    background: var(--bg);
+}
+
+.menu-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.menu-item {
+    flex: 1 1 200px;
+    max-width: 260px;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    cursor: pointer;
+}
+
+.menu-item img {
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+}
+
+.order-card {
+    border: 1px solid var(--border);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: var(--bg);
+}
+
+.article-item {
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background: var(--surface);
+}
+
+.status-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+}
+
+.cart-row {
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: transparent;
+    padding: 0.4rem 0;
+    cursor: pointer;
+}
+
+.cart-row--selected { background: var(--bg); }
+.cart-price, .cart-empty { color: #666; }
+
+.order-list { list-style: none; padding: 0; }
+.order-list li { padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+
+.alert { padding: 0.75rem; border-radius: 6px; margin-bottom: 1rem; }
+.alert-success { background: #d4edda; }
+.alert-error { background: #fdecea; }
+.alert-empty { color: #666; text-align: center; padding: 1rem; }
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+
+@media (max-width: 768px) {
+    .site-nav { flex-direction: column; }
+    .menu-item { max-width: 100%; flex: 1 1 100%; }
+    .btn-group { flex-direction: column; }
+    .btn-group .btn { width: 100%; }
+}
+
+@media (min-width: 769px) {
+    .menu-item { flex: 1 1 calc(33% - 1rem); }
+}

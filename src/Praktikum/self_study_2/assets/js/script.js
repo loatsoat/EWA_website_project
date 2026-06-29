@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
             entries.forEach((item) => {
                 const row = document.createElement('button');
                 row.type = 'button';
-                row.style.cssText = 'display:block; width:100%; text-align:left; border:0; background:transparent; padding:6px 0; cursor:pointer;';
+                row.className = 'cart-row';
                 row.dataset.articleId = item.id;
 
                 const nameElement = document.createElement('strong');
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const quantityText = document.createTextNode(' x ' + item.quantity + ' ');
 
                 const priceElement = document.createElement('span');
-                priceElement.style.color = '#666';
+                priceElement.className = 'cart-price';
                 priceElement.textContent = '(' + formatPrice(item.price * item.quantity) + ' €)';
 
                 row.appendChild(nameElement);
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 row.appendChild(priceElement);
 
                 if (String(item.id) === String(selectedArticleId)) {
-                    row.style.background = '#f2f2f2';
+                    row.classList.add('cart-row--selected');
                 }
 
                 row.addEventListener('click', () => {
