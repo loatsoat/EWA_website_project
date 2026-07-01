@@ -13,10 +13,6 @@ class ApiController extends BaseController
 
     private function getSessionOrderId(): int
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-
         return (int) ($_SESSION['customer_order_id'] ?? 0);
     }
 
