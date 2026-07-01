@@ -18,7 +18,7 @@
                         <p><strong>Lieferstatus:</strong></p>
                         <div class="status-options">
                             <label>
-                                <input type="radio" class="auto-submit" name="order_<?= (int) $order['id'] ?>" value="3">
+                                <input type="radio" class="auto-submit" name="order_<?= (int) $order['id'] ?>" value="3" <?= (int) $order['status'] === 3 ? 'checked' : '' ?>>
                                 Unterwegs
                             </label>
                             <label>

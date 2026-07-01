@@ -22,14 +22,16 @@ class DriverController extends BaseController
         }
 
         foreach ($_POST as $key => $value) {
-            if (strpos($key, 'order_') === 0) {
-                $order_id = (int) str_replace('order_', '', $key);
+            if (strpos($key, 'order_') !== 0) {
+                continue;
+            }
 
-                if ($value === '3') {
-                    $this->orderingModel->updateOrderArticlesStatus($order_id, 3);
-                } elseif ($value === 'delivered') {
-                    $this->orderingModel->deleteOrder($order_id);
-                }
+            $order_id = (int) str_replace('order_', '', $key);
+
+            if ((int) $value === 3) {
+                $this->orderingModel->updateOrderArticlesStatus($order_id, 3);
+            } elseif ($value === 'delivered') {
+                $this->orderingModel->deleteOrder($order_id);
             }
         }
 

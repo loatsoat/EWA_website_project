@@ -25,6 +25,8 @@ class OrderingModel extends BaseModel
 
     public function getAllOrders(): array
     {
+        // Only show orders where not all articles are finished (status < 2).
+        // Once every article reaches status=2, the order passes to the driver.
         $result = $this->db->query(
             'SELECT o.ordering_id AS id, o.address, o.ordering_time,
                     GROUP_CONCAT(a.name) AS articles,
@@ -33,6 +35,7 @@ class OrderingModel extends BaseModel
              LEFT JOIN ordered_article oa ON o.ordering_id = oa.ordering_id
              LEFT JOIN article a ON oa.article_id = a.article_id
              GROUP BY o.ordering_id, o.address, o.ordering_time
+             HAVING MIN(COALESCE(oa.status, 0)) < 2
              ORDER BY o.ordering_id DESC'
         );
 
@@ -130,15 +133,18 @@ class OrderingModel extends BaseModel
 
     public function getReadyOrders(): array
     {
+        // Show orders where all articles are either Fertig (2) or Unterwegs (3)
+        // and at least one article exists. This keeps the order visible on the
+        // driver page after clicking "Unterwegs" until it is marked as delivered.
         $result = $this->db->query(
             'SELECT o.ordering_id AS id, o.address, o.ordering_time,
-                    COUNT(oa.ordered_article_id) AS article_count
+                    COUNT(oa.ordered_article_id) AS article_count,
+                    MIN(oa.status) AS min_status
              FROM ordering o
              JOIN ordered_article oa ON o.ordering_id = oa.ordering_id
              GROUP BY o.ordering_id, o.address, o.ordering_time
              HAVING COUNT(oa.ordered_article_id) > 0
-                AND MIN(COALESCE(oa.status, 0)) = 2
-                AND MAX(COALESCE(oa.status, 0)) = 2
+                AND MIN(COALESCE(oa.status, 0)) >= 2
              ORDER BY o.ordering_id ASC'
         );
 
@@ -148,7 +154,13 @@ class OrderingModel extends BaseModel
 
         $orders = [];
         while ($row = $result->fetch_assoc()) {
-            $orders[] = $row;
+            $orders[] = [
+                'id'            => (int) $row['id'],
+                'address'       => $row['address'],
+                'ordering_time' => $row['ordering_time'],
+                'article_count' => (int) $row['article_count'],
+                'status'        => (int) $row['min_status'],
+            ];
         }
 
         return $orders;

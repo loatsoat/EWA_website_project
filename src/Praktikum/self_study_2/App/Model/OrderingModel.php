@@ -33,6 +33,7 @@ class OrderingModel extends BaseModel
              LEFT JOIN ordered_article oa ON o.ordering_id = oa.ordering_id
              LEFT JOIN article a ON oa.article_id = a.article_id
              GROUP BY o.ordering_id, o.address, o.ordering_time
+             HAVING MIN(COALESCE(oa.status, 0)) < 2
              ORDER BY o.ordering_id DESC'
         );
 
@@ -130,15 +131,17 @@ class OrderingModel extends BaseModel
 
     public function getReadyOrders(): array
     {
+        // Show orders where all articles are Fertig (2) or Unterwegs (3).
+        // Order stays visible on driver page until marked as delivered (deleted).
         $result = $this->db->query(
             'SELECT o.ordering_id AS id, o.address, o.ordering_time,
-                    COUNT(oa.ordered_article_id) AS article_count
+                    COUNT(oa.ordered_article_id) AS article_count,
+                    MIN(oa.status) AS min_status
              FROM ordering o
              JOIN ordered_article oa ON o.ordering_id = oa.ordering_id
              GROUP BY o.ordering_id, o.address, o.ordering_time
              HAVING COUNT(oa.ordered_article_id) > 0
-                AND MIN(COALESCE(oa.status, 0)) = 2
-                AND MAX(COALESCE(oa.status, 0)) = 2
+                AND MIN(COALESCE(oa.status, 0)) >= 2
              ORDER BY o.ordering_id ASC'
         );
 
@@ -148,7 +151,13 @@ class OrderingModel extends BaseModel
 
         $orders = [];
         while ($row = $result->fetch_assoc()) {
-            $orders[] = $row;
+            $orders[] = [
+                'id'            => (int) $row['id'],
+                'address'       => $row['address'],
+                'ordering_time' => $row['ordering_time'],
+                'article_count' => (int) $row['article_count'],
+                'status'        => (int) $row['min_status'],
+            ];
         }
 
         return $orders;
