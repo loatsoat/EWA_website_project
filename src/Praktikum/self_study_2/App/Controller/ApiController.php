@@ -13,15 +13,12 @@ class ApiController extends BaseController
 
     private function getSessionOrderId(): int
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-
         return (int) ($_SESSION['customer_order_id'] ?? 0);
     }
 
     protected function getData(string $resource = '', int $orderId = 0): array
     {
+        // [T3] /api or /api/ordering/{id}.
         if ($resource !== '' || $orderId > 0) {
             if ($resource !== 'ordering' || $orderId <= 0) {
                 http_response_code(404);
@@ -55,6 +52,7 @@ class ApiController extends BaseController
 
     public function generateResponse(string $resource = '', int $orderId = 0): string
     {
+        // [T3] Return JSON only.
         $data = $this->getData($resource, $orderId);
         $this->renderJson($data);
         return '';

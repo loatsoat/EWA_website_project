@@ -7,6 +7,7 @@
         <h1>Fahrer - Auslieferungsübersicht</h1>
 
         <form method="post" action="<?= Router::generateUrl('driver') ?>" id="driver-form">
+            <!-- Der Fahrer ändert den Lieferstatus ebenfalls per Auto-Submit-Radio. -->
             <?php if (!empty($orders)): ?>
                 <?php foreach ($orders as $order): ?>
                     <article class="order-card">
@@ -36,6 +37,7 @@
 </div>
 
 <script>
+    // Nach dem Klick auf eine Status-Option wird der aktuelle Lieferstatus sofort gespeichert.
     const form   = document.getElementById("driver-form");
     const radios = form.querySelectorAll(".auto-submit");
 

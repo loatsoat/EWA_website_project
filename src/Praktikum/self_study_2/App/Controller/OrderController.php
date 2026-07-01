@@ -25,10 +25,7 @@ class OrderController extends BaseController
             return;
         }
 
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-
+        // [T3] Store current order in session.
         $adresse   = trim((string) ($_POST['adresse'] ?? ''));
         $articles  = is_array($_POST['pizzen']) ? array_values(array_filter(array_map('intval', $_POST['pizzen']), fn($id) => $id > 0)) : [];
         $quantities = is_array($_POST['menge'] ?? null) ? $_POST['menge'] : [];

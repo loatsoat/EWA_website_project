@@ -6,6 +6,7 @@ const statusMap = {
 };
 
 function process(data) {
+    // [T4] Render API data into the order box.
     const container = document.getElementById("order");
     if (!container) return;
 
@@ -21,6 +22,7 @@ function process(data) {
     const order    = data.order;
     const articles = Array.isArray(data.articles) ? data.articles : [];
 
+    // [T4] Rebuild the full order from JSON.
     const section = document.createElement("section");
 
     const h2 = document.createElement("h2");
@@ -60,6 +62,7 @@ function process(data) {
 
     if (articles.length > 0) {
         articles.forEach(function (a) {
+            // [T4] Map status codes to labels.
             const price  = parseFloat(a.price || 0)
                 .toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             const status = statusMap[parseInt(a.status, 10)] ?? "Unbekannt";
@@ -89,6 +92,7 @@ function process(data) {
 
 async function requestData() {
     try {
+        // [T4] Fetch JSON only.
         const response = await fetch("api");
 
         if (!response.ok) {
@@ -103,6 +107,7 @@ async function requestData() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    // [T4] Start polling after DOM load.
     requestData();                 
     setInterval(requestData, 2000); 
 });

@@ -7,6 +7,7 @@
         <h1>Pizzabäcker - Bestellungsübersicht</h1>
 
         <form method="post" action="<?= Router::generateUrl('baker') ?>" id="baker-form">
+            <!-- Jede Radio-Auswahl schickt das Formular direkt ab, damit der Status sofort gespeichert wird. -->
             <?php if (!empty($orders)): ?>
                 <?php foreach ($orders as $order): ?>
                     <section class="order-card">
@@ -49,6 +50,7 @@
 </div>
 
 <script>
+    // Die Radios sind als Auto-Submit umgesetzt, damit keine extra Schaltfläche nötig ist.
     const form   = document.getElementById("baker-form");
     const radios = form.querySelectorAll(".auto-submit");
 

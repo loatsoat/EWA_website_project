@@ -1,7 +1,7 @@
 /* Main JavaScript file for Prak4. */
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Order page behavior (moved from inline script)
+    // [T4] Order page starts after DOM load.
     const menuItems = document.querySelectorAll('.menu-item');
     const cartItemsElement = document.getElementById('cart-items');
     const cartEmptyElement = document.getElementById('cart-empty');
@@ -25,10 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function calculateTotal() {
+        // [T4] Total = price x quantity.
         return Object.values(cartState).reduce((sum, item) => sum + (item.price * item.quantity), 0);
     }
 
     function renderCart() {
+        // [T4] Rebuild cart on every change.
         cartItemsElement.innerHTML = '';
 
         const entries = Object.values(cartState);
@@ -75,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         hiddenFieldsElement.innerHTML = '';
         Object.values(cartState).forEach((item) => {
+            // [T4] Hidden inputs send cart data.
             const pizzaInput = document.createElement('input');
             pizzaInput.type = 'hidden';
             pizzaInput.name = 'pizzen[]';
@@ -93,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateSubmitState() {
         if (!submitButton) return;
 
+        // [T4] Enable submit only with address and items.
         const hasItems = Object.keys(cartState).length > 0;
         const addressPresent = addressInput && addressInput.value.trim() !== '';
 
@@ -100,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function addPizza(articleElement) {
+        // [T4] Add pizza to cart.
         const id = String(articleElement.dataset.id);
         const name = articleElement.dataset.name;
         const price = parseFloat(articleElement.dataset.price || '0');
@@ -123,6 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (clearSelectionButton) {
         clearSelectionButton.addEventListener('click', () => {
+            // [T4] Remove one selected item.
             if (!selectedArticleId || !cartState[selectedArticleId]) {
                 return;
             }
@@ -141,6 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (clearAllButton) {
         clearAllButton.addEventListener('click', () => {
+            // [T4] Clear cart.
             Object.keys(cartState).forEach((key) => {
                 delete cartState[key];
             });
@@ -153,8 +160,8 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCart();
     updateSubmitState();
 
-    // Ensure all <option> elements inside selects are selected before submitting
     if (orderForm) {
+        // [T4] Select all options before submit.
         orderForm.addEventListener('submit', () => {
             const selects = orderForm.querySelectorAll('select');
             selects.forEach((sel) => {

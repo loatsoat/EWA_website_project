@@ -1,4 +1,4 @@
-<?php $pageScripts = ['assets/js/script.js']; ?>
+<?php $pageScripts = ['assets/js/script.js']; // Nur die Bestellseite lädt die interaktive Warenkorb-Logik. ?>
 <?php include __DIR__ . '/partials/head.php'; ?>
 <div class="container">
     <?php include __DIR__ . '/partials/header.php'; ?>
@@ -50,6 +50,7 @@
                 <div id="hidden-order-fields"></div>
 
                 <div class="btn-group">
+                    <!-- Die Buttons ändern nur den lokalen Warenkorb; das eigentliche Senden passiert erst per Submit. -->
                     <button type="button" id="clear-selection" class="btn btn-secondary">Auswahl löschen</button>
                     <button type="button" id="clear-all" class="btn btn-secondary">Alles löschen</button>
                     <button type="submit" id="order-submit" class="btn btn-primary" disabled>

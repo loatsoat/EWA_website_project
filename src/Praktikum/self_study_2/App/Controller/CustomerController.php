@@ -13,10 +13,6 @@ class CustomerController extends BaseController
 
     protected function getData(): array
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-
         $orderId  = (int) ($_SESSION['customer_order_id'] ?? 0);
         $order    = $orderId > 0 ? $this->orderingModel->getOrderById($orderId) : null;
         $articles = $order ? $this->orderingModel->getOrderedArticles($order['id']) : [];

@@ -28,6 +28,7 @@ $segments = $router->getRouteSegments();
 $route    = $segments[0] ?? '';
 
 try {
+    // [T3] Route dispatcher.
     switch ($route) {
         case '':
         case 'order':
@@ -60,6 +61,7 @@ try {
     }
 
     if ($route === 'api') {
+        // [T3] Pass API args to controller.
         /** @var ApiController $controller */
         $controller->handleRequest($apiResource, $apiId);
     } else {
