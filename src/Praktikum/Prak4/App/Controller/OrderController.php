@@ -50,7 +50,7 @@ class OrderController extends BaseController
     public function generateResponse(): string
     {
         ob_start();
-        $this->renderHtml('order.view.php', ['articles' => $this->getData(), 'includeScript' => true]);
+        $this->renderHtml('order.view.php', ['articles' => $this->getData()]);
         return ob_get_clean();
     }
 
