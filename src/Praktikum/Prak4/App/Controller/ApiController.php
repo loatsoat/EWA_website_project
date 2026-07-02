@@ -58,6 +58,13 @@ class ApiController extends BaseController
 
     public function handleRequest(string $resource = '', int $orderId = 0): void
     {
+        if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+            http_response_code(405);
+            header('Allow: GET');
+            $this->renderJson(['error' => 'Method Not Allowed']);
+            return;
+        }
+
         $this->generateResponse($resource, $orderId);
     }
 }
