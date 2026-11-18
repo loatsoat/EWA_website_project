@@ -1,97 +1,80 @@
-# EWA Project
-This repository provides a reproducible Apache/PHP/MariaDB environment for the EWA course, including practical exercises, lecture demos, and previous exams.
-It matters because students can run the same stack locally without installing or configuring a web server and database by hand.
+# EWA Website Project
+A PHP/MariaDB pizza-ordering web app with customer, baker and driver views, served from a reproducible Docker stack.
 
-[![CI](https://github.com/loatsoat/EWA_project/actions/workflows/ci.yml/badge.svg)](https://github.com/loatsoat/EWA_project/actions/workflows/ci.yml)
+[![CI](https://github.com/loatsoat/EWA_website_project/actions/workflows/ci.yml/badge.svg)](https://github.com/loatsoat/EWA_website_project/actions/workflows/ci.yml)
 
-## What problem does it solve?
+## What it does
 
-Web-development exercises often fail before the first line of application code because PHP, Apache, database credentials, and imported schemas differ between machines. Docker Compose keeps those services and the database seed files together, while the `src` directory remains a live-mounted workspace.
+A pizza service that covers the full order lifecycle:
 
-## Demo
+- **Order page:** customers pick pizzas, see a live cart total, and place an order.
+- **Customer page:** shows the status of their own orders and refreshes every 2 seconds through a JSON API (`fetch` + polling).
+- **Baker page:** login-protected; marks pizzas as in the oven or ready.
+- **Driver page:** login-protected; takes finished orders out for delivery and marks them delivered.
 
-After startup, open the live local demo at [http://localhost](http://localhost). The database administration UI is available at [http://localhost:8085](http://localhost:8085).
+The app is built as a small hand-written MVC framework in plain PHP (no Composer packages): a front controller with a router, one controller per page, models for database access, and views with shared partials.
+
+## Tech stack
+
+- PHP 8 (strict types), Apache with `mod_rewrite`
+- MariaDB, managed through phpMyAdmin
+- Vanilla JavaScript for the cart and the live status updates
+- Docker Compose for the whole environment
+- GitHub Actions for PHP syntax checks and Compose validation
 
 ## Quick start
 
-### Prerequisites
-
-- [Docker Desktop](https://docs.docker.com/desktop/) with Docker Compose v2
-- Git
-- Ports `80`, `3306`, and `8085` available on the host
-
-### Clone, install, and run
+Requires [Docker Desktop](https://docs.docker.com/desktop/) with Compose v2 and free ports `80`, `3306` and `8085`.
 
 ```bash
-git clone https://github.com/loatsoat/EWA_project.git
-cd EWA_project
-cp .env.example .env
+git clone https://github.com/loatsoat/EWA_website_project.git
+cd EWA_website_project
+cp .env.example .env          # PowerShell: Copy-Item .env.example .env
 docker compose up -d
 ```
 
-On Windows PowerShell, use `Copy-Item .env.example .env` instead of `cp`.
+- App: [http://localhost/Praktikum/Prak4/](http://localhost/Praktikum/Prak4/)
+- phpMyAdmin: [http://localhost:8085](http://localhost:8085)
 
-Verify the installation:
+The database is seeded from `mariadb/mariadb.setup/` on first start. To reset it, run `docker compose down -v` and then `docker compose up -d`.
 
-```bash
-docker compose ps
-curl http://localhost
-```
-
-Visit [http://localhost](http://localhost), then stop the stack with:
-
-```bash
-docker compose down
-```
-
-The MariaDB volume is intentionally persistent. To recreate the seeded database from scratch, run `docker compose down -v` and then `docker compose up -d`.
-
-## Architecture
+## Project structure
 
 ```text
-EWA_project/
-├── docker-compose.yml        # Apache/PHP, MariaDB, and phpMyAdmin services
-├── php-apache/               # Apache image and debugging configuration
-├── mariadb/mariadb.setup/    # Alphabetically imported SQL seed files
+EWA_website_project/
+├── docker-compose.yml          # Apache/PHP, MariaDB and phpMyAdmin services
+├── php-apache/                 # Web server image and configuration
+├── mariadb/mariadb.setup/      # Pizzaservice schema and seed data
 ├── src/
-│   ├── Praktikum/            # Course practicals and MVC examples
-│   ├── Klausuren/            # Past exams, solutions, and supplied assets
-│   ├── EWA_Framework/        # Small MVC framework example
-│   └── index.php             # Landing page served at localhost
-├── tests/                    # Repository smoke checks
-└── .github/workflows/        # Automated PHP syntax and Compose checks
+│   ├── Praktikum/
+│   │   ├── Prak1 … Prak4/      # The app built up step by step (Prak4 is the final version)
+│   │   └── self_study*/        # Self-study variants
+│   ├── EWA_Framework/          # Minimal MVC skeleton the app is based on
+│   └── index.php               # Landing page at localhost
+├── tests/php-lint.ps1          # PHP syntax check for every file
+└── .github/workflows/ci.yml    # CI pipeline
 ```
+
+Request flow in `Prak4`: `index.php` → `Router` → `*Controller` → `*Model` (MariaDB) → `View/*.view.php`.
 
 ## Design decisions
 
-- **Docker Compose:** makes the multi-service environment reproducible and avoids host-specific PHP/Apache/MariaDB setup.
-- **Bind-mounted `src`:** changes are immediately visible in the web container, which is essential for an exercise repository.
-- **Checked-in SQL seeds:** database examples are reviewable and can be recreated after deleting the named volume.
-- **Historical folders remain separate:** exercises and exams are preserved as teaching material instead of being forced into one application architecture.
-- **Environment-based credentials:** `.env` is local-only; `.env.example` documents development defaults without requiring secrets in the repository.
+- **Own MVC instead of a framework:** keeps every layer visible and shows how routing, controllers and views fit together without framework magic.
+- **Polling JSON API for live status:** `setInterval` + `fetch` every 2 seconds is simple and works without WebSockets on a plain Apache/PHP host.
+- **Role-based access via sessions:** baker and driver pages check the session role in one `AuthHelper`, so access rules are not repeated in every controller.
+- **Docker Compose:** the same Apache/PHP/MariaDB setup runs on any machine, and the seeded database can be rebuilt with one command.
 
-## Development and troubleshooting
-
-Useful shortcuts are available in the [Makefile](Makefile):
-
-```text
-make start    Start the services
-make stop     Stop the services
-make test     Run PHP syntax checks
-make build    Recreate containers and the database volume
-make console  Open a shell in the Apache container
-```
-
-Run the validation directly on Windows with:
+## Running tests
 
 ```powershell
 pwsh -File tests/php-lint.ps1
 ```
 
-If a service does not start, inspect its logs with `docker compose logs <service>`. Port conflicts are the most common cause; change the host-side port mappings in `docker-compose.yml` if required. SQL import errors prevent MariaDB from becoming ready and should be fixed in the reported seed file before rebuilding.
+Or `make test`. CI runs the same check on every push.
 
-The containers are intended for local coursework, not production deployment. Keep the stack bound to localhost and stop it when it is not in use.
+## Limitations
 
-## License
-
-The repository is released under the [MIT License](LICENSE). Third-party course materials retain their original rights.
+- Baker and driver logins use fixed demo credentials, not a user table with hashed passwords.
+- Status updates use polling rather than push, so there is up to a 2-second delay.
+- Tests are syntax checks only; there are no unit or end-to-end tests yet.
+- Intended for local use; the Docker setup is not hardened for production.

@@ -10,7 +10,7 @@ $year = date("Y");
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EWA Repository</title>
-    <meta name="description" content="EWA Serverumgebung: Apache, PHP, MariaDB, phpMyAdmin sowie Ordner für Praktikum, Demos u.v.m.">
+    <meta name="description" content="EWA Serverumgebung: Apache, PHP, MariaDB, phpMyAdmin sowie Pizzaservice-Webanwendung">
     <link rel="stylesheet" href="index.css">
     <script src="logic.js" defer></script>
 </head>
@@ -54,28 +54,17 @@ $year = date("Y");
             <p>Die folgenden Ordner helfen Ihnen beim Arbeiten mit den bereitgestellten Inhalten:</p>
             <ul>
                 <li><strong>Praktikum</strong> – Hier bearbeiten Sie die Praktikumsaufgaben.</li>
-                <li><strong>Klausuren</strong> – Enthält frühere Prüfungsaufgaben.</li>
-                <li><strong>Spielwiese</strong> – Zum Ausprobieren und Testen eigener Ideen.</li>
-                <li><strong>Demos</strong> – Zum Experimentieren mit den Vorlesungsdemos.</li>
                 <li><strong>EWA_Framework</strong> – MVC-Architektur inkl. „Getting started“-Anleitung.</li>
             </ul>
 
             <p>Viel Erfolg und Spaß beim Programmieren!</p>
             <div class="flex-container">
-                <a class="flex-item flex-item--warning" href="./Praktikum">Praktikum</a>
-                <a href="https://ewa-lab.h-da.io/" target="_blank" class="flex-item">Praktikumsaufgaben <span aria-hidden="true">↗</span></a>
+                <a class="flex-item flex-item--warning" href="./Praktikum/Prak4/">Pizzaservice</a>
+                <a class="flex-item" href="./Praktikum">Praktikum</a>
             </div>
             <div class="flex-container">
                 <a class="flex-item" href="./EWA_Framework">EWA_Framework &copy;</a>
-                <a href="./Klausuren" class="flex-item">Altklausuren</a>
-            </div>
-            <div class="flex-container">
-                <a href="https://lernen.h-da.de/course/view.php?id=18875" class="flex-item" target="_blank">Moodlekurs <span aria-hidden="true">↗</span></a>
                 <a href="http://localhost/phpmyadmin" class="flex-item" target="_blank">Datenbanken <span aria-hidden="true">↗</span></a>
-            </div>
-            <div class="flex-container">
-                <a href="./Spielwiese" class="flex-item">Spielwiese</a>
-                <a href="./Demos" class="flex-item">Demos</a>
             </div>
             <footer>
                 &copy; <?= htmlspecialchars($year, ENT_QUOTES, 'UTF-8'); ?> Thomas Hofmann
