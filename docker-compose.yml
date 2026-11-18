@@ -27,10 +27,10 @@ services:
       MYSQL_INITDB_SKIP_TZINFO: 1
       TZ: "Europe/Berlin"
       MYSQL_ALLOW_EMPTY_PASSWORD: "no"
-      MYSQL_ROOT_PASSWORD: "ganzGeheim"
-      MYSQL_DATABASE: "ewa"
-      MYSQL_USER: "public"
-      MYSQL_PASSWORD: "public"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-ganzGeheim}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE:-ewa}"
+      MYSQL_USER: "${MYSQL_USER:-public}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD:-public}"
     ports:
       - "3306:3306"
     networks:

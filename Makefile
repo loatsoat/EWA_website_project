@@ -1,6 +1,9 @@
 start:
 	docker compose up -d
 
+test:
+	powershell -NoProfile -ExecutionPolicy Bypass -File tests/php-lint.ps1
+
 console:
 	docker exec -it ewa_lab_php_apache bash
 

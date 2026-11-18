@@ -1,1 +1,10 @@
 .DS_Store
+.env
+.env.*
+!.env.example
+*.log
+*.tmp
+*.swp
+*.swo
+Thumbs.db
+docker-compose.override.yml
